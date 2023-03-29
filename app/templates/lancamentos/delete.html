@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>Tem certeza que deseja remover o lançamento?</h3>
+  <form method="POST" action="{{ url_for('lancamentos.delete', id=lancamento.id) }}">
+    <input type="submit" value="Sim">
+    <a href="{{url_for('lancamentos.index')}}">Cancelar</a>
+  </form>
+{% endblock %}

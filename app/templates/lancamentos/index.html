@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Lançamentos{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <div class="lancamentoiner">
+    <h1>Lista de Lancamentos</h1>
+    <a href="{{ url_for('lancamentos.create')}}">
+      <i class="bi bi-plus-circle-fill"></i>
+      Nova lancamento
+    </a>
+    
+    <hr>
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Data</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Conta</th>
+          <th scope="col">Valor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lancamento in lancamentos %}
+        <tr>
+          <th scope="row">
+            <a href="{{url_for('lancamentos.update', id=lancamento.id)}}">{{lancamento.id}}</a>
+          </th>
+          <td>{{lancamento.dtlancamento.strftime('%d/%m/%Y')}}</td>
+          <td>{{lancamento.descricao}}</td>
+          <td>{{lancamento.conta.nome}}</td>
+          <td class="{{'text-success' if lancamento.valor > 0 else 'text-danger' }}">{{lancamento.valor}}</td>
+          <td>
+            <form method="POST" action="{{ url_for('lancamentos.delete', id=lancamento.id) }}">
+              <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+            </form>
+            <!-- <a class="text-danger" href="{{url_for('lancamentos.delete', id=lancamento.id)}}">Excluir</a> -->
+<!--             <button onClick="excluir(this, {{lancamento.id}})">Excluir</button> -->
+<!--             <a data-confirm="Tem Certeza?" data-method="delete"
+              href="url_for('lancamentos.delete', id=lancamento.id)">Excluir</a> -->
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+{% endblock %}
+
+{% block script %}
+  {{ super() }}
+  <script>
+    function excluir(elemento, id){
+      if(confirm('Tem Certeza?')){
+        fetch('/lancamentos/delete/'+id, {
+         method: 'DELETE',
+         header: {
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json',
+           }
+         })
+        elemento.parentElement.parentElement.remove()
+        alert("lancamento removida com sucesso!");
+      }
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>Tem certeza que deseja remover a conta {{conta.nome}}</h3>
+  <form method="POST" action="{{ url_for('contas.delete', id=conta.id) }}">
+    <input type="submit" value="Sim">
+    <a href="{{url_for('contas.index')}}">Cancelar</a>
+  </form>
+
+{% endblock %}

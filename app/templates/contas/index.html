@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Contas{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Lista de Contas</h1>
+    <a href="{{ url_for('contas.create')}}">
+      <i class="bi bi-plus-circle-fill"></i>
+      Nova Conta
+    </a>
+    
+    <hr>
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th class="text-center" scope="col">Ativo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for conta in contas %}
+        <tr>
+          <th scope="row">
+            <a href="{{url_for('contas.update', id=conta.id)}}">{{conta.id}}</a>
+          </th>
+          <td>{{conta.nome}}</td>
+          <td class="text-center">
+            {% if conta.ativo %}
+              <i class="bi bi-check-circle text-info"></i>
+            {% else %}
+              <i class="bi bi-square text-warning"></i>
+            {% endif%}
+<!--             <input type="checkbox" {{"checked" if conta.ativo else ""}}  disabled> -->
+          </td>
+          <td>
+            <a class="text-danger" href="{{url_for('contas.delete', id=conta.id)}}">Excluir</a>
+<!--             <button onClick="excluir(this, {{conta.id}})">Excluir</button> -->
+<!--             <a data-confirm="Tem Certeza?" data-method="delete"
+              href="url_for('contas.delete', id=conta.id)">Excluir</a> -->
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+{% endblock %}
+
+{% block script %}
+  {{ super() }}
+  <script>
+    function excluir(elemento, id){
+      if(confirm('Tem Certeza?')){
+        fetch('/contas/delete/'+id, {
+         method: 'DELETE',
+         header: {
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json',
+           }
+         })
+        elemento.parentElement.parentElement.remove()
+        alert("Conta removida com sucesso!");
+      }
+    }
+  </script>
+{% endblock %}

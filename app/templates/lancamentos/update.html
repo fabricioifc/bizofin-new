@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form, render_field %}
+
+{% block content %}
+  <h3>Atualizar Conta</h3>
+  <form method="POST" action="/lancamentos/create">
+    {{ form.csrf_token }}
+    {{ render_field(form.despesa, form_type="inline", class="form-control", placeholder="Despesa")}}
+    {{ render_field(form.descricao)}}
+    {{ render_field(form.dtlancamento)}}
+    {{ render_field(form.conta_id)}}
+    {{ render_field(form.valor)}}
+    {{ render_field(form.submit) }}
+  </form>
+{% endblock %}
+
+
+
+<!--   <form method="POST" action="/contas/create">
+    <div>
+      Nome: <input type="text" name="nome" value="">
+      Ativo: <input type="checkbox" name="ativo" checked>
+    <div>
+      <input type="submit" value="Salvar">
+    </div>
+  </form> -->

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+<!--   <h3>Login Page</h3> -->
+<!--   {{ render_form(form) }} -->
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <main class="form-signin w-100 m-auto">
+      <form role="form" method="post" action="">
+        {{ form.csrf_token }}
+        <h1 class="h3 mb-3 fw-normal text-center">Login</h1>
+
+        <div class="form-floating">
+          {{ form.email(placeholder="email", class="form-control mb-2") }}
+          {{ form.email.label }}
+            {% if form.email.errors %}
+              {% for error in form.email.errors %}
+              <div class="alert alert-danger" role="alert">
+                {{ error }}
+              </div>
+              {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-floating">
+          {{ form.password(placeholder="password", class="form-control mb-2") }}
+          {{ form.password.label }}
+            {% if form.password.errors %}
+              {% for error in form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                  {{ error }}
+                </div>
+              {% endfor %}
+            {% endif %}
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+        <p class="text-center mt-3">Ainda não possui cadastro? <a href="{{ url_for('accounts.register') }}">Cadastre-se aqui</a></p>
+      </form>
+    </main>
+  </div>
+  <div class="col-md-4">
+      <!-- <a href="google/" class="login-btn" style="text-decoration:none;">
+        <img id="google" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="Google" style="width:50px;height:50px;">
+        Login with Google
+      </a>  -->
+  </div>
+</div>
+{% endblock %}

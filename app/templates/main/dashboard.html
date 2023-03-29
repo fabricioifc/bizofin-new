@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block header %}
+    {% include '_messages.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-8">
+            <h3>Olá, {{current_user.email}}</h3>
+        </div>
+        <div class="col-4">
+            <ul class="list-group">
+                <li class="list-group-item active">Saldo</li>
+                {% for x in saldo %}
+                    <li class="list-group-item">
+                        {{ x.conta }}
+                        <span class="badge rounded-pill float-end {{x.color}}">{{x.saldo}}</span>
+                    </li>
+                {% endfor%}
+                
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

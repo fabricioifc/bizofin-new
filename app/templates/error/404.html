@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}404{% endblock %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center row">
+      <div class=" col-md-6">
+        <img src="https://i.pinimg.com/originals/82/53/cb/8253cb96d29d1f79b4b4d52bb958598d.png" alt="404" class="img-fluid">
+      </div>
+      <div class=" col-md-6 mt-5">
+        <h1 class="display-1 fw-bold">404</h1>
+          <p class="fs-3"> <span class="text-danger">Opps!</span> Página não encontrada.</p>
+          <p class="lead">
+              A página que você está procurando não existe.
+          </p>
+          <h4><a href="{{ url_for('main.index') }}">Vá para a Página Inicial</a></h4>
+      </div>
+  
+    </div>
+  </div>
+  
+{% endblock %}
