@@ -16,6 +16,7 @@ def index():
     if current_user.is_authenticated:
         # Busca as contas com seu saldo
         conta_saldo = get_saldo_contas()
+        
         # Adiciona a cor verde, caso o saldo seja positivo e vermelho caso seja negativo
         conta_saldo = [{**item, 'color': 'bg-success' if item['saldo'] > 0 else 'bg-danger'} for item in conta_saldo]
 

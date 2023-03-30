@@ -6,6 +6,7 @@ from sqlalchemy.sql import text
 
 '''Retorna as contas do usuário e seu respectivo saldo'''
 def get_saldo_contas():
+    
     stmt = (
         db.session.query(
             Lancamento.conta_id.label('conta_id'),
@@ -17,13 +18,14 @@ def get_saldo_contas():
     )
 
     result = (
-        db.session.query(
+        db.session.query(Conta)
+        .with_entities(
             Conta.nome.label('nome'),
-            stmt.c.conta_id.label('conta_id'),
-            stmt.c.saldo.label('saldo'),
+            Conta.id.label('conta_id'),
+            stmt.c.saldo,
         )
         .filter_by(user_id=current_user.id, ativo=True)
-        .join(stmt, Conta.id == stmt.c.conta_id, isouter=True)
+        .join(stmt, Conta.id == stmt.c.conta_id)
         .order_by(Conta.id).all()
     )
 
