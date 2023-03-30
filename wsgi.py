@@ -7,5 +7,6 @@ with app.app_context():
 
     # print('Excluindo tabelas')
     # db.drop_all()
+    
     print('Criando tabelas')
     db.create_all()
