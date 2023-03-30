@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap5
 from flask_breadcrumbs import Breadcrumbs
+from flask_babel import Babel
 
 
 metadata = MetaData(
@@ -20,3 +21,4 @@ bcrypt = Bcrypt()
 migrate = Migrate()
 bootstrap5 = Bootstrap5()
 breadcrumbs = Breadcrumbs()
+babel = Babel()

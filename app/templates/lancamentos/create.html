@@ -1,20 +1,91 @@
 {% extends 'base.html' %}
+{% block title%} Lançamento {% endblock %}
 {% from 'bootstrap5/form.html' import render_form, render_field %}
 
 {% block content %}
-  <h3>Criar Lançamento</h3>
-  <form method="POST" action="/lancamentos/create">
-    {{ form.csrf_token }}
-    {{ render_field(form.despesa, form_type="inline", class="form-control", placeholder="Despesa")}}
-    {{ render_field(form.descricao)}}
-    {{ render_field(form.dtlancamento)}}
-    {{ render_field(form.conta_id)}}
-    {{ render_field(form.valor)}}
-    {{ render_field(form.submit) }}
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="card">
+      <div class="card-header">
+        <div class="hstack gap-3">
+          <b class="me-auto">Novo Lançamento</b>
+
+          <div class="mr-auto">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              {{ render_field(form.despesa, form_type="inline", class="", placeholder="Despesa", form_group_classes="mb-0 btn btn-light")}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-md-6">
+            {{ render_field(form.descricao)}}
+          </div>
+          <div class="col-md-6">
+            {{ render_field(form.dtlancamento)}}
+          </div>
+          <div class="col-md-6">
+            {{ render_field(form.conta_id)}}
+          </div>
+          <div class="col-md-6">
+            {{ render_field(form.valor)}}
+          </div>
+        </div>
+        
+      </div>
+      <div class="card-footer">
+        {{ render_field(form.submit, class='btn-sm') }}
+        <a href="{{url_for('lancamentos.index')}}" aria-current="true" class="btn btn-sm btn-dark">
+          Cancelar
+        </a>
+      </div>
+    </div>
   </form>
+  
 {% endblock %}
 
+{% block footer %}
+  {{ super() }}
+{% endblock %}
 
+{% block script %}
+  {{ super() }}
+  <script>
+
+    const check = document.querySelectorAll('input[name="despesa"]')
+    const cardHeader = document.querySelector('div.card-header')
+
+    function changeCardColor(value) {
+      if(value == 0) {
+          // Receita
+          cardHeader.classList.remove('border-danger')
+          cardHeader.classList.add('border-success')
+          cardHeader.parentElement.classList.remove('border-danger')
+          cardHeader.parentElement.classList.add('border-success')
+        } else {
+          // Despesa
+          cardHeader.classList.remove('border-success')
+          cardHeader.classList.add('border-danger')
+          cardHeader.parentElement.classList.remove('border-success')
+          cardHeader.parentElement.classList.add('border-danger')
+        }
+    }
+
+    window.addEventListener('load', function(e) {
+      const checked = document.querySelector('input[name="despesa"]:checked')
+      changeCardColor(checked.value)
+    })
+
+    check.forEach(element => {
+      element.addEventListener('change', function(e) {
+        e.preventDefault()
+        changeCardColor(e.target.getAttribute('value'))
+      })  
+    });
+  </script>
+{% endblock %}
 
 <!--   <form method="POST" action="/contas/create">
     <div>

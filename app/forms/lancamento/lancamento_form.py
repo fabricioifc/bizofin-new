@@ -1,14 +1,15 @@
 from datetime import datetime
+import decimal
 from flask_wtf import FlaskForm
-from wtforms import EmailField, StringField, DateField, BooleanField, SubmitField, FloatField, SelectField, RadioField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms import EmailField, StringField, DateField, BooleanField, SubmitField, FloatField, SelectField, RadioField, DecimalField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 from flask_login import current_user
-from app.models import User, Lancamento, Conta
+from app.models import Conta
 
 def get_contas():
     return [(g.id, g.nome) for g in Conta.query.filter_by(user_id=current_user.id).order_by('nome')]
-
+    
 class LancamentoForm(FlaskForm):
     despesa = RadioField('Despesa', 
                          choices=[(1,'Despesa'),(0,'Receita')], 
@@ -35,13 +36,17 @@ class LancamentoForm(FlaskForm):
                            choices=get_contas,
                            validators=[DataRequired()]
     )
-    valor = FloatField(label=('Valor'),
-                    validators=[DataRequired()],
-                    render_kw={
-                    'placeholder': 'Valor'
-                    })
+    valor = DecimalField(label=('Valor'), 
+                        places=2,
+                        rounding=decimal.ROUND_UP,
+                        validators=[DataRequired()],
+                        render_kw={
+                        'placeholder': 'Valor'
+                        },
+    )
     # ativo = BooleanField('Ativo', default="checked")
     submit = SubmitField(label=('Salvar'))
+
 
 
     # def validate(self, extra_validators=None):

@@ -13,11 +13,15 @@ from app.repository.lancamento_repository import *
 bp_lancamentos = Blueprint('lancamentos', __name__, template_folder='templates', url_prefix='/lancamentos')
 
 @bp_lancamentos.route('/')
+@bp_lancamentos.route('/<int:conta_id>/conta')
 @register_breadcrumb(bp_lancamentos, '.', 'Lançamentos')
 @login_required
-def index():
-  lancamentos = get_lancamentos(current_user.id)
-  return render_template('lancamentos/index.html', lancamentos=lancamentos)
+def index(conta_id=None):
+  if conta_id:
+    lancamentos = get_lancamentos_conta(user_id=current_user.id, conta_id=conta_id)
+  else:
+    lancamentos = get_lancamentos(current_user.id)
+  return render_template('lancamentos/index.html', lancamentos=lancamentos, contas=get_contas(user_id=current_user.id))
 
 
 @bp_lancamentos.route('/create', methods=['GET', 'POST'])
@@ -34,9 +38,7 @@ def create():
       conta_id = request.form.get('conta_id')
       # ativo = bool(request.form.get('ativo'))
       despesa = bool(int(request.form.get('despesa')))
-      valor = float(request.form.get('valor'))
-
-      # import pdb; pdb.set_trace()
+      valor = round(float(request.form.get('valor')), 2)
 
       lancamento = Lancamento(
         ativo=True,
@@ -52,7 +54,6 @@ def create():
       flash('Lançamento Cadastrado com Sucesso!', "success")
       return redirect(url_for('lancamentos.index'))
     else:
-      print(form)
       return render_template('lancamentos/create.html', form=form)
 
 
@@ -64,8 +65,9 @@ def update(id):
     try:
       form.populate_obj(lancamento)
       despesa = bool(int(request.form.get('despesa')))
-      lancamento.valor = lancamento.valor*-1 if despesa else lancamento.valor
-      
+      valor = round(float(request.form.get('valor')), 2)
+      lancamento.valor = valor*-1 if despesa else valor
+
       atualizar_lancamento(lancamento=lancamento)
       flash("Lançamento Atualizado com Sucesso!", "success")
       return redirect(url_for('lancamentos.index'))
