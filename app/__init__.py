@@ -44,15 +44,12 @@ def registrar_extensoes(app):
 
   # Bootstrap (CSS)
   bootstrap5.init_app(app)
-
+ 
   # Breadcrumbs
   breadcrumbs.init_app(app=app)
 
   #Crypt password
   bcrypt.init_app(app)
-
-  with app.app_context():
-    db.create_all()
 
 def registrar_configuracoes(app):
   # Configure the flask app instance
