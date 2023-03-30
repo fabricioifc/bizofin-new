@@ -1,11 +1,41 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, PasswordField
-from wtforms.validators import DataRequired, Email, ValidationError
-
+from wtforms import EmailField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, ValidationError, Length, EqualTo
 
 class LoginForm(FlaskForm):
   email = EmailField("E-mail", validators=[DataRequired(), Email(message=None)])
   password = PasswordField("Senha", validators=[DataRequired()])
+
+class ResetForm(FlaskForm):
+  email = EmailField("E-mail", validators=[DataRequired(), Email(message=None)])
+  submit = SubmitField(label=('Enviar e-mail de recuperação'))
+
+class ResetPasswordForm(FlaskForm):
+  password = PasswordField(
+        "Password", validators=[DataRequired(), Length(min=6, max=25)]
+  )
+  confirm = PasswordField(
+    "Repeat password",
+    validators=[
+        DataRequired(),
+        EqualTo("password", message="Passwords must match."),
+    ],
+  )
+  submit = SubmitField(label=('Alterar Senha'))
+
+class ChangePasswordForm(FlaskForm):
+  email = EmailField("E-mail", validators=[DataRequired(), Email(message=None)])
+  password = PasswordField(
+        "Password", validators=[DataRequired(), Length(min=6, max=25)]
+  )
+  confirm = PasswordField(
+    "Repeat password",
+    validators=[
+        DataRequired(),
+        EqualTo("password", message="Passwords must match."),
+    ],
+  )
+  submit = SubmitField(label=('Alterar Senha'))
 
   # def __init__(self,*k,**kk):
   #   self._user=None #for internal user storing

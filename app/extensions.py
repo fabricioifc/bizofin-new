@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap5
 from flask_breadcrumbs import Breadcrumbs
 from flask_babel import Babel
-
+from flask_mail import Mail
 
 metadata = MetaData(
   naming_convention={
@@ -22,3 +22,4 @@ migrate = Migrate()
 bootstrap5 = Bootstrap5()
 breadcrumbs = Breadcrumbs()
 babel = Babel()
+mail = Mail()

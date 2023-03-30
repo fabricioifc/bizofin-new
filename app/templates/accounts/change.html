@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Alterar Senha{% endblock %}
+{% from 'bootstrap5/form.html' import render_form, render_field %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <main class="form-signin w-100 m-auto">
+      {{render_form(form)}}
+    </main>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
+{% endblock %}

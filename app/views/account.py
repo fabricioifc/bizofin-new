@@ -1,6 +1,3 @@
-import os
-import requests
-import json
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, abort
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms.validators import DataRequired, Length, Regexp
@@ -8,9 +5,9 @@ from wtforms.fields import *
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, current_user, logout_user, login_required
 from app.models.user import User
-from app.forms.login_form import LoginForm
+from app.forms.login_form import LoginForm, ResetForm, ChangePasswordForm, ResetPasswordForm
 from app.forms.register_form import RegisterForm
-from ..extensions import db
+from ..extensions import db, bcrypt, mail
 
 from app.repository.user_repository import fazer_login, registrar_usuario, get_user_by_id
 
@@ -67,6 +64,44 @@ def logout():
   flash("Você foi desconectado.", "success")
   return redirect(url_for("accounts.login"))
 
+@bp_account.route("/reset_password", methods=['GET', 'POST'])
+def reset():
+  form = ResetForm()
+  if form.validate_on_submit():
+    user = User.query.filter_by(email=form.email.data).first()
+    if user:
+      send_mail(user)
+    flash('Uma mensagem foi enviada para o seu e-mail. Verifique.', 'success')
+    return redirect(url_for('accounts.login'))
+  return render_template("accounts/reset.html", form=form)
+
+def send_mail(user: User):
+  from flask_mail import Message
+  token = user.get_token()
+  message = Message('Recuperação de Senha', recipients=[user.email], sender='fabricio.bizotto@gmail.com')
+  message.body=f'''
+    Para reiniciar sua senha, clique no link abaixo.
+    {url_for('accounts.reset_token', token=token, _external=True)}
+  '''
+
+  mail.send(message)
+
+@bp_account.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+  user = User.verify_token(token)
+  if user is None:
+    flash('Token Inválido ou Expirou!')
+    return redirect(url_for('accounts.reset'))
+  
+  form = ResetPasswordForm()
+  if form.validate_on_submit():
+    hashed_password = bcrypt.generate_password_hash(form.password.data).decode('UTF-8')
+    user.password=hashed_password
+    print(hashed_password)
+    db.session.commit()
+    flash('Senha alterada com sucesso!', 'success')
+    return redirect(url_for('accounts.login'))
+  return render_template('accounts/change.html', form=form)
 
 # Gerenciador de Login
 def setup_flask_login(app):

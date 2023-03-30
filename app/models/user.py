@@ -1,7 +1,12 @@
+import os
 from datetime import datetime
-from ..extensions import db
-from ..extensions import bcrypt
 from flask_login import UserMixin
+from ..extensions import db, bcrypt
+
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
+from dotenv import load_dotenv
+
+load_dotenv('.flaskenv')
 
 class User(UserMixin, db.Model):
 
@@ -21,3 +26,17 @@ class User(UserMixin, db.Model):
 
   def __repr__(self):
     return f"<email {self.email}>"
+
+  def get_token(self):
+    serial = Serializer(os.getenv('SECRET_KEY'))
+    return serial.dumps({'user_id': self.id})
+  
+  @staticmethod
+  def verify_token(token):
+    serial = Serializer(os.getenv('SECRET_KEY'))
+    try:
+      user_id = serial.loads(token)['user_id']
+    except:
+      return None
+    
+    return User.query.get(user_id)
