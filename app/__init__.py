@@ -40,8 +40,9 @@ def registrar_extensoes(app):
 
   production = os.getenv('CONFIG_TYPE') == 'config.ProductionConfig'
   if production:
-    print('Criando tabelas')
-    db.create_all()
+    with app.app_context():
+      print('Criando tabelas')
+      db.create_all()
 
   # Executa as migrações das tabelas
   # Precisa executar `flask db init` `flask db migrate` no shell
