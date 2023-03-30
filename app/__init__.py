@@ -1,8 +1,8 @@
 import os
 from flask import Flask, session, abort, redirect, request
 
-# from dotenv import load_dotenv
-# load_dotenv('.flaskenv')
+from dotenv import load_dotenv
+load_dotenv('.flaskenv')
 
 def create_app():
   app = Flask(__name__)
@@ -37,6 +37,11 @@ def registrar_extensoes(app):
 
   # Inicializa o Banco de Dados SQLite
   db.init_app(app)
+
+  production = os.getenv('CONFIG_TYPE') == 'config.ProductionConfig'
+  if production:
+    print('Criando tabelas')
+    db.create_all()
 
   # Executa as migrações das tabelas
   # Precisa executar `flask db init` `flask db migrate` no shell
