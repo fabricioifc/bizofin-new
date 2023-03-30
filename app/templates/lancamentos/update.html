@@ -3,8 +3,8 @@
 
 {% block content %}
   <h3>Atualizar Conta</h3>
-  <form method="POST" action="/lancamentos/create">
-    {{ form.csrf_token }}
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
     {{ render_field(form.despesa, form_type="inline", class="form-control", placeholder="Despesa")}}
     {{ render_field(form.descricao)}}
     {{ render_field(form.dtlancamento)}}

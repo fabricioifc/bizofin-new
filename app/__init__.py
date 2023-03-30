@@ -38,12 +38,6 @@ def registrar_extensoes(app):
   # Inicializa o Banco de Dados SQLite
   db.init_app(app)
 
-  production = os.getenv('CONFIG_TYPE') == 'config.ProductionConfig'
-  if production:
-    with app.app_context():
-      print('Criando tabelas')
-      db.create_all()
-
   # Executa as migrações das tabelas
   # Precisa executar `flask db init` `flask db migrate` no shell
   migrate.init_app(app, db)

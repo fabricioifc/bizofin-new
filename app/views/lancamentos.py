@@ -47,7 +47,7 @@ def create():
         valor=valor*-1 if despesa else valor
       )
 
-      atualizar_lancamento(lancamento)
+      salvar_lancamento(lancamento)
 
       flash('Lançamento Cadastrado com Sucesso!', "success")
       return redirect(url_for('lancamentos.index'))
