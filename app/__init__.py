@@ -51,6 +51,9 @@ def registrar_extensoes(app):
   #Crypt password
   bcrypt.init_app(app)
 
+  with app.app_context():
+    db.create_all()
+
 def registrar_configuracoes(app):
   # Configure the flask app instance
   CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
