@@ -13,15 +13,23 @@ from app.repository.lancamento_repository import *
 bp_lancamentos = Blueprint('lancamentos', __name__, template_folder='templates', url_prefix='/lancamentos')
 
 @bp_lancamentos.route('/')
-@bp_lancamentos.route('/<int:conta_id>/conta')
+# @bp_lancamentos.route('/<int:conta_id>/conta')
+@bp_lancamentos.route('/<int:ano>/<int:mes>')
+@bp_lancamentos.route('/<int:ano>/<int:mes>/conta/<int:conta_id>')
 @register_breadcrumb(bp_lancamentos, '.', 'Lançamentos')
 @login_required
-def index(conta_id=None):
-  if conta_id:
-    lancamentos = get_lancamentos_conta(user_id=current_user.id, conta_id=conta_id)
-  else:
-    lancamentos = get_lancamentos(current_user.id)
-  return render_template('lancamentos/index.html', lancamentos=lancamentos, contas=get_contas(user_id=current_user.id))
+def index(ano=None, mes=None, conta_id=None):
+
+  if ano is None or mes is None:
+    return redirect(url_for('lancamentos.index', ano=datetime.datetime.now().year, mes=datetime.datetime.now().month))
+
+  (lancamentos_anomes, saldo_anterior) = get_lancamentos_anomes(user_id=current_user.id,ano=ano,mes=mes,conta_id=conta_id)
+  contas = get_contas(user_id=current_user.id)
+
+  return render_template('lancamentos/index.html', 
+                          lancamentos=lancamentos_anomes, 
+                          contas=contas, saldo_anterior=saldo_anterior['saldo_inicial'] or 0,
+                          ano_atual=ano, mes_atual=mes, conta_atual=conta_id)
 
 
 @bp_lancamentos.route('/create', methods=['GET', 'POST'])

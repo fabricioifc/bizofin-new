@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+
   <div class="card">
     <div class="card-header d-sm-none d-md-block d-lg-block d-xl-block d-none">
       <div class="hstack gap-3">
@@ -17,11 +18,13 @@
         <div class="vr"></div>
         
         <ul class="list-group list-group-horizontal-xl">
-          <a href="{{url_for('lancamentos.index')}}" aria-current="true" class="list-group-item {{ 'active' if request.path == url_for('lancamentos.index')}}">
-            Todos
+          {% set path = url_for('lancamentos.index', ano=ano_atual, mes=mes_atual) %}
+          <a href="{{path}}" aria-current="true" class="list-group-item p-1 {{ 'active' if request.path == path}}">
+            <i class="bi bi-list-check"></i>
           </a>
           {% for conta in contas %}
-            <a href="{{url_for('lancamentos.index', conta_id=conta.id)}}" aria-current="true" class="list-group-item {{ 'active' if request.path == url_for('lancamentos.index', conta_id=conta.id)}}">
+            {% set path = url_for('lancamentos.index', ano=ano_atual, mes=mes_atual, conta_id=conta.id) %}
+            <a href="{{path}}" aria-current="true" class="list-group-item p-1 {{ 'active' if request.path == path}}">
               {{conta.nome}}
             </a>
           {% endfor %}
@@ -39,52 +42,93 @@
         <h4 class="mx-auto">Lista de Lançamentos</h4>
 
         <ul class="list-group list-group-horizontal-xl">
-          <a href="{{url_for('lancamentos.index')}}" aria-current="true" class="list-group-item {{ 'active' if request.path == url_for('lancamentos.index')}}">
+          {% set path = url_for('lancamentos.index', ano=ano_atual, mes=mes_atual) %}
+          <a href="{{path}}" aria-current="true" class="list-group-item {{ 'active' if request.path == path}}">
             Todos
           </a>
           {% for conta in contas %}
-            <a href="{{url_for('lancamentos.index', conta_id=conta.id)}}" aria-current="true" class="list-group-item {{ 'active' if request.path == url_for('lancamentos.index', conta_id=conta.id)}}">
+            {% set path = url_for('lancamentos.index', ano=ano_atual, mes=mes_atual, conta_id=conta.id) %}
+            <a href="{{path}}" aria-current="true" class="list-group-item {{ 'active' if request.path == path}}">
               {{conta.nome}}
             </a>
           {% endfor %}
         </ul>
       </div>
     </div>
-    <div class="card-body p-0 table-responsive">
-      <table class="table table-striped table-sm m-0">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col" class="text-center">#</th>
-            <th scope="col">Data</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Conta</th>
-            <th scope="col" class="text-end">Valor</th>
-            <th class="text-center">Ações</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          {% for lancamento in lancamentos %}
-          <tr>
-            <th scope="row" class="text-center">
-              <a href="{{url_for('lancamentos.update', id=lancamento.id)}}">{{lancamento.id}}</a>
-            </th>
-            <td>{{lancamento.dtlancamento.strftime('%d/%m/%Y')}}</td>
-            <td>{{lancamento.descricao}}</td>
-            <td>{{lancamento.conta.nome}}</td>
-            <td class="text-end {{'text-success' if lancamento.valor > 0 else 'text-danger' }}">{{lancamento.valor|currencyformat('R$') }}</td>
-            <td class="text-end">
-              <form method="POST" action="{{ url_for('lancamentos.delete', id=lancamento.id) }}">
-                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-              </form>
-              <!-- <a class="text-danger" href="{{url_for('lancamentos.delete', id=lancamento.id)}}">Excluir</a> -->
-  <!--             <button onClick="excluir(this, {{lancamento.id}})">Excluir</button> -->
-  <!--             <a data-confirm="Tem Certeza?" data-method="delete"
-                href="url_for('lancamentos.delete', id=lancamento.id)">Excluir</a> -->
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="card-body p-0">
+      {% set next_year_path = url_for('lancamentos.index', ano=ano_atual+1, mes=mes_atual, conta_id=conta_atual) %}
+      {% set last_year_path = url_for('lancamentos.index', ano=ano_atual-1, mes=mes_atual, conta_id=conta_atual) %}
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm m-0">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Data</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Conta</th>
+              <th scope="col" class="text-end">Valor</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td colspan="4" class="table-dark text-end">
+                <nav aria-label="Lançamentos por mês">
+                  <ul class="pagination justify-content-center m-0 p-1">
+                    <li class="page-item">
+                      <a class="page-link py-0" href="{{last_year_path}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link py-0">{{ano_atual}}</a></li>
+                    <li class="page-item me-4">
+                      <a class="page-link py-0" href="{{next_year_path}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                    {% for mes in range(1,13) %}
+                      {% set path = url_for('lancamentos.index', ano=ano_atual, mes=mes, conta_id=conta_atual) %}
+                      {% set active = request.path == path %}
+                      
+                      <li class="page-item">
+                        <a href="{{path}}" aria-current="true" class="page-link py-0 {{ 'active' if active }}">
+                          {{mes}}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </nav>
+              </td>
+              <td scope="row" colspan="1" class="table-dark text-end">
+                <span class="badge text-bg-light" title="Saldo Anterior">{{saldo_anterior|currencyformat('R$')}}</span>
+              </td>
+              <td colspan="1" class="table-dark text-end"></td>
+            </tr>
+            {% for lancamento in lancamentos %}
+            <tr>
+              <th scope="row" class="text-center">
+                <a href="{{url_for('lancamentos.update', id=lancamento.id)}}">{{lancamento.id}}</a>
+              </th>
+              <td>{{lancamento.dtlancamento.strftime('%d/%m/%Y')}}</td>
+              <td>{{lancamento.descricao}}</td>
+              <td>{{lancamento.conta.nome}}</td>
+              <td class="text-end {{'text-success' if lancamento.valor > 0 else 'text-danger' }}">{{lancamento.valor|currencyformat('R$') }}</td>
+              <td class="text-end">
+                <form method="POST" action="{{ url_for('lancamentos.delete', id=lancamento.id) }}">
+                  <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                </form>
+                <!-- <a class="text-danger" href="{{url_for('lancamentos.delete', id=lancamento.id)}}">Excluir</a> -->
+    <!--             <button onClick="excluir(this, {{lancamento.id}})">Excluir</button> -->
+    <!--             <a data-confirm="Tem Certeza?" data-method="delete"
+                  href="url_for('lancamentos.delete', id=lancamento.id)">Excluir</a> -->
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
     </div>
   </div>
     
