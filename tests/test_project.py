@@ -25,7 +25,6 @@ def test_login_valido(client):
 
     assert "Você se registrou e agora está logado. Bem-vindo!" in response.data.decode('utf-8')
 
-
 def test_login_invalido(client):
     client.post('/accounts/login', data={"email": "teste@teste.com", "password": "123456"})
 
