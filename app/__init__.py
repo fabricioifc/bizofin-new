@@ -4,10 +4,10 @@ from flask import Flask, session, abort, redirect, request
 from dotenv import load_dotenv
 load_dotenv('.flaskenv')
 
-def create_app():
+def create_app(config=None):
   app = Flask(__name__)
   
-  registrar_configuracoes(app)
+  registrar_configuracoes(app, config)
   registrar_extensoes(app)
   registrar_blueprints(app)
   registrar_handlers(app)
@@ -54,10 +54,11 @@ def registrar_extensoes(app):
 
   babel.init_app(app, default_locale='pt_br')
 
-def registrar_configuracoes(app):
+def registrar_configuracoes(app, config):
   # Configure the flask app instance
-  CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
-  app.config.from_object(CONFIG_TYPE)
+  if config is None:
+    config = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
+  app.config.from_object(config)
 
 
 def registrar_email(app):

@@ -32,7 +32,8 @@ class TestingConfig(Config):
   TESTING = True
   WTF_CSRF_ENABLED = False
   MAIL_SUPPRESS_SEND = True
-  SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, 'test.db')
+  # SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, 'test.db')
+  SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
 
 
 class ProductionConfig(Config):
