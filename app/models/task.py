@@ -6,7 +6,7 @@ class Task(db.Model):
   __tablename__ = 'tasks'
 
   id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String(45), nullable=False)
+  name = db.Column(db.String(140), nullable=False)
   done = db.Column(db.Boolean(), default=False)
   created_at = db.Column(db.DateTime, default=datetime.datetime.now)
   updated_at = db.Column(db.DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)

@@ -1,5 +1,5 @@
 from datetime import datetime as D
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
 from ..extensions import db
 from app.models import Conta, Lancamento
 from flask_wtf import FlaskForm, CSRFProtect
@@ -67,7 +67,10 @@ def create():
 
 @bp_lancamentos.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-  lancamento = Lancamento.query.get_or_404(id)
+  lancamento = get_lancamentos_by_id(current_user.id, id)
+  if lancamento is None:
+    abort(404)
+
   form = LancamentoForm(obj=lancamento)
   if form.validate_on_submit():
     try:
@@ -94,7 +97,11 @@ def update(id):
 @bp_lancamentos.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):
-  lancamento = Lancamento.query.get_or_404(id)
+  # lancamento = Lancamento.query.get_or_404(id)
+  lancamento = get_lancamentos_by_id(current_user.id, id)
+  if lancamento is None:
+    abort(404)
+    
   if request.method in ['POST']:
     try:
       lancamento.ativo = False

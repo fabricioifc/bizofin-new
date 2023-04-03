@@ -11,6 +11,9 @@ from app.models.conta import Conta
 # def get_lancamentos_conta(user_id, conta_id):
 #   return Lancamento.query.filter_by(user_id=user_id, ativo=True, conta_id=conta_id).order_by('dtlancamento')
 
+def get_lancamentos_by_id(user_id, lancamento_id):
+    return Lancamento.query.filter_by(user_id=user_id, id=lancamento_id).first()
+
 def get_lancamentos_anomes(user_id, ano, mes, conta_id=None):
     dias = calendar.monthrange(ano, mes)
     dtini = datetime.datetime(year=ano, month=mes, day=1).strftime('%Y-%m-%d')  

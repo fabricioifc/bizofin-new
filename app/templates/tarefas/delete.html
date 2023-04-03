@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>Tem certeza que deseja remover a tarefa {{objeto.name}}</h3>
+  <form method="POST" action="{{ url_for('tarefas.delete', id=objeto.id) }}">
+    <input type="submit" value="Sim">
+    <a href="{{url_for('tarefas.index')}}">Cancelar</a>
+  </form>
+
+{% endblock %}

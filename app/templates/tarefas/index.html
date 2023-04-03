@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Tarefas{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Lista de Tarefas</h1>
+    <a href="{{ url_for('tarefas.create')}}">
+      <i class="bi bi-plus-circle-fill"></i>
+      Nova Tarefa
+    </a>
+    
+    <hr>
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Descrição</th>
+          <th class="text-center" scope="col">Feita</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in lista %}
+        <tr>
+          <th scope="row">
+            <a href="{{url_for('tarefas.update', id=task.id)}}">{{task.id}}</a>
+          </th>
+          <td>{{task.name}}</td>
+          <td class="text-center">
+            {% if task.done %}
+              <i class="bi bi-check-circle text-info"></i>
+            {% else %}
+              <i class="bi bi-square text-warning"></i>
+            {% endif%}
+<!--             <input type="checkbox" {{"checked" if task.ativo else ""}}  disabled> -->
+          </td>
+          <td>
+            <a class="text-danger" href="{{url_for('tarefas.delete', id=task.id)}}">Excluir</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+{% endblock %}
+
+{% block script %}
+  {{ super() }}
+{% endblock %}

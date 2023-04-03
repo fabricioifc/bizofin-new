@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+  <h3>Atualizar Tarefa</h3>
+  {{ render_form(form) }}
+{% endblock %}
+
+
+
+<!--   <form method="POST" action="/contas/create">
+    <div>
+      Nome: <input type="text" name="nome" value="">
+      Ativo: <input type="checkbox" name="ativo" checked>
+    <div>
+      <input type="submit" value="Salvar">
+    </div>
+  </form> -->
