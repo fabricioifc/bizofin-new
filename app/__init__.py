@@ -90,10 +90,10 @@ def registrar_handlers(app):
   @app.context_processor
   def inject_template_scope():
       injections = dict()
-      print(injections)
+      # print(injections)
       def cookies_check():
           value = request.cookies.get('cookie_consent')
-          print(value)
+          # print(value)
           return value == 'true'
       injections.update(cookies_check=cookies_check)
       return injections
