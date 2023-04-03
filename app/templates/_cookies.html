@@ -1,0 +1,26 @@
+{% if not cookies_check() %}
+    <div class="fixed-bottom p-4" id="cookie-consent-container">
+        <div class="toast bg-warning fade show w-100 mw-100" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Alerta de Cookies</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-light p-4 d-flex flex-column">
+                <p>Utilizamos cookies para fornecer a melhor experiência de uso, tornando nossas aplicações mais fáceis e personalizadas, tendo por base suas escolhas e comportamento de navegação.</p>
+                <div class="ml-auto">
+                    <button type="button" class="btn btn-outline-success" id="btnAccept">
+                        Aceitar todos os cookies
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    var fn = function () {
+        document.cookie = "cookie_consent=true";
+        document.getElementById('cookie-consent-container').hidden = true;
+    };
+    document.getElementById('btnAccept').onclick = fn;
+    </script>
+{% endif %}
