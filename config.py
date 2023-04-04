@@ -15,8 +15,7 @@ class Config:
   TESTING = False
   WTF_CSRF_ENABLED = True
   # SERVER_NAME = '06916f47-db6b-4d2e-a5b8-8ac30faff09d.id.repl.co'
-  SERVER_NAME = os.getenv('SERVER_NAME', default='localhost:5000')
-
+  
   # Settings applicable to all environments
   SECRET_KEY = os.getenv('SECRET_KEY', default='chave_super_secreta.')
   SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -24,6 +23,7 @@ class Config:
 
 
 class DevelopmentConfig(Config):
+  SERVER_NAME = os.getenv('SERVER_NAME', default='localhost:5000')
   DEBUG = True
   SQLALCHEMY_DATABASE_URI = 'sqlite:///database_dev.db'
   # SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, 'database_dev.db')
