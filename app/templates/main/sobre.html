@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sobre{% endblock %}
+
+{% block content %}
+    <h1>Sobre</h1>
+    <p>Este é um site de exemplo para o curso de Flask.</p>
+
+    <ul class="list-group list-group-flush mb-5 pb-5">
+        <li class="list-group-item">
+            SERVER_NAME: <code>{{ config['SERVER_NAME'] }}</code>
+        </li>
+        <li class="list-group-item">
+            FLASK_ENV: <code>{{ config['FLASK_ENV'] }}</code>
+        </li>
+    </ul>
+
+{% endblock %}

@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap5
 from flask_breadcrumbs import Breadcrumbs
 from flask_babel import Babel
 from flask_mail import Mail
+from flask_gravatar import Gravatar
 
 metadata = MetaData(
   naming_convention={
@@ -23,3 +24,4 @@ bootstrap5 = Bootstrap5()
 breadcrumbs = Breadcrumbs()
 babel = Babel()
 mail = Mail()
+gravatar = Gravatar()

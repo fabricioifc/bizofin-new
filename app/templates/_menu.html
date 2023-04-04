@@ -24,20 +24,24 @@
       </ul>
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-  		  <ul class="navbar-nav ">
+        <ul class="navbar-nav">
           {% if current_user.is_authenticated %}
-          <li class="nav-item">
-            <a href="#" class="nav-link pe-none" tabindex="-1" aria-disabled="true">
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="{{current_user.email | gravatar}}" class="rounded-circle" width="30" height="30" alt="user">
               {{current_user.email}}
             </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="{{ url_for('main.sobre') }}">Sobre</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <a href="{{ url_for('accounts.logout') }}" class="nav-link bg-danger text-light">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+              </a>
+            </ul>
           </li>
           
-          <li class="nav-item">
-            <a href="{{ url_for('accounts.logout') }}" class="nav-link btn btn-danger text-light">
-              <i class="bi bi-box-arrow-right"></i>
-              Logout
-            </a>
-          </li>
           {% else %}
             <li class="nav-item">
               <a href="{{ url_for('accounts.login') }}" class='nav-link btn btn-light text-dark me-1'>

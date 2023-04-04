@@ -23,3 +23,10 @@ def index():
         return render_template('main/dashboard.html', saldo=conta_saldo)
     else:
         return render_template('main/index.html')
+    
+@bp_main.route('/about')
+@bp_main.route('/sobre')
+@register_breadcrumb(bp_main, '.about', 'Sobre')
+def sobre():
+    return render_template('main/sobre.html')
+

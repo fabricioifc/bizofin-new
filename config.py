@@ -15,6 +15,7 @@ class Config:
   TESTING = False
   WTF_CSRF_ENABLED = True
   # SERVER_NAME = '06916f47-db6b-4d2e-a5b8-8ac30faff09d.id.repl.co'
+  SERVER_NAME = os.getenv('SERVER_NAME', default='localhost:5000')
 
   # Settings applicable to all environments
   SECRET_KEY = os.getenv('SECRET_KEY', default='chave_super_secreta.')
@@ -29,6 +30,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+  FLASK_ENV = 'testing'
   TESTING = True
   WTF_CSRF_ENABLED = False
   MAIL_SUPPRESS_SEND = True

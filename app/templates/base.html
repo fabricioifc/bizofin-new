@@ -21,7 +21,7 @@
 <body>
   {% include '_menu.html' %}
   
-  <div class="container mt-2">
+  <div class="container mt-2 mb-5">
     {% block header %}
       {% include '_breadcrumb.html' %}
       {% include '_messages.html' %}
@@ -30,9 +30,7 @@
     {% block content %}{% endblock %}
   
     {% block footer %}
-      <footer>
-        {% include 'footer.html' %}  
-      </footer>
+      {% include 'footer.html' %}  
     {% endblock %}
 
   </div>

@@ -34,7 +34,7 @@ def registrar_blueprints(app):
 
 
 def registrar_extensoes(app):
-  from .extensions import db, migrate, bcrypt, bootstrap5, breadcrumbs, babel
+  from .extensions import db, migrate, bcrypt, bootstrap5, breadcrumbs, babel, gravatar
 
   # Inicializa o Banco de Dados SQLite
   db.init_app(app)
@@ -53,6 +53,8 @@ def registrar_extensoes(app):
   bcrypt.init_app(app)
 
   babel.init_app(app, default_locale='pt_br')
+
+  gravatar.init_app(app)
 
 def registrar_configuracoes(app, config):
   # Configure the flask app instance
