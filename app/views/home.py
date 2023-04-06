@@ -26,7 +26,7 @@ def index():
     
 @bp_main.route('/about')
 @bp_main.route('/sobre')
-@register_breadcrumb(bp_main, '.about', 'Sobre')
+@register_breadcrumb(bp_main, '.sobre', 'Sobre')
 def sobre():
     return render_template('main/sobre.html')
 
