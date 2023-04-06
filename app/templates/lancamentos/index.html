@@ -14,7 +14,7 @@
           Novo Lançamento
         </a>
 
-        <h4 class="mx-auto">Lista de Lançamentos</h4>
+        <h4 class="mx-auto text-dark">Lista de Lançamentos</h4>
         <div class="vr"></div>
         
         <ul class="list-group list-group-horizontal-xl">
@@ -39,7 +39,7 @@
           Novo Lançamento
         </a>
 
-        <h4 class="mx-auto">Lista de Lançamentos</h4>
+        <h4 class="mx-auto text-dark">Lista de Lançamentos</h4>
 
         <ul class="list-group list-group-horizontal-xl">
           {% set path = url_for('lancamentos.index', ano=ano_atual, mes=mes_atual) %}
@@ -61,7 +61,7 @@
 
       <div class="table-responsive">
         <table class="table table-striped table-sm m-0">
-          <thead class="table-dark">
+          <thead class="">
             <tr>
               <th scope="col" class="text-center">#</th>
               <th scope="col">Data</th>
@@ -73,7 +73,7 @@
           </thead>
           <tbody class="table-group-divider">
             <tr>
-              <td colspan="4" class="table-dark text-end">
+              <td colspan="4" class=" text-end">
                 <nav aria-label="Lançamentos por mês">
                   <ul class="pagination justify-content-center m-0 p-1">
                     <li class="page-item">
@@ -100,10 +100,10 @@
                   </ul>
                 </nav>
               </td>
-              <td scope="row" colspan="1" class="table-dark text-end">
+              <td scope="row" colspan="1" class=" text-end">
                 <span class="badge text-bg-light" title="Saldo Anterior">{{saldo_anterior|currencyformat('R$')}}</span>
               </td>
-              <td colspan="1" class="table-dark text-end"></td>
+              <td colspan="1" class=" text-end"></td>
             </tr>
             {% for lancamento in lancamentos %}
             <tr>

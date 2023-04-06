@@ -32,7 +32,7 @@
               <img src="{{current_user.email | gravatar}}" class="rounded-circle" width="30" height="30" alt="user">
               {{current_user.email}}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
               <li><a class="dropdown-item" href="{{ url_for('main.sobre') }}">Sobre</a></li>
               <li><hr class="dropdown-divider"></li>
               <a href="{{ url_for('accounts.logout') }}" class="nav-link bg-danger text-light">

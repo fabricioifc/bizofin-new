@@ -3,11 +3,18 @@
     <!-- Copyright -->
   <div class="text-center p-2 bg-light">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         &copy; Copyright 2023 by <a href="http://videira.ifc.edu.br/">IFC Videira</a>.
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         Ambiente: <strong>{{ config['FLASK_ENV'] }}</strong>
+      </div>
+      <div class="col-md-4">
+        <div class="form-check form-switch ms-auto">
+          <label class="form-check-label" for="lightSwitch">
+            <i class="bi bi-brightness-high"></i>
+          <input class="form-check-input" type="checkbox" id="lightSwitch" />
+        </div>
       </div>
     </div>
   </div>
