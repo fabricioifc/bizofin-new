@@ -7,7 +7,8 @@ from app.models import User
 
 class RegisterForm(FlaskForm):
     email = EmailField(
-        "Email", validators=[DataRequired(), Email(message=None), Length(min=6, max=40)]
+        "Email", validators=[DataRequired(), Email(message=None), Length(min=6, max=40)],
+        render_kw={'autofocus': True, }
     )
     password = PasswordField(
         "Password", validators=[DataRequired(), Length(min=6, max=25)]
